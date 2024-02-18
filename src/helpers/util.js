@@ -26,3 +26,18 @@ export const deleteFromStorage = (key, data) => {
 	}
 
 }
+
+export const updateStorage = (key, data) => {
+	try {
+		const storedItems = JSON.parse(localStorage.getItem(key)) || [];
+
+		const updatedItems = storedItems.map((item) =>
+			item.id === data.id ? data : item
+		);
+
+		localStorage.setItem(key, JSON.stringify(updatedItems));
+	} catch (error) {
+		console.error("Error updating storage:", error);
+		throw error;
+	}
+};
