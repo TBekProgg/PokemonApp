@@ -7,7 +7,12 @@ import { useEffect } from "react";
 import { getResource } from "./helpers/fetch";
 import { YELLOW_POKEMONS } from "./helpers/endpoints";
 import "bootstrap/dist/css/bootstrap.css";
-import { addToStorage, deleteFromStorage, idGenerator } from "./helpers/util";
+import {
+	addToStorage,
+	deleteFromStorage,
+	idGenerator,
+	updateStorage,
+} from "./helpers/util";
 import { POKEMONS_STORAGE_KEY } from "./helpers/constants";
 
 const App = () => {
@@ -51,6 +56,18 @@ const App = () => {
 		}
 	};
 
+	const updatePokemon = (updatedPokemon) => {
+		try {
+			const updatedPokemons = pokemons.map((pokemon) =>
+				pokemon.id === updatedPokemon.id ? updatedPokemon : pokemon
+			);
+			setPokemons(updatedPokemons);
+			updateStorage(POKEMONS_STORAGE_KEY, updatedPokemon);
+		} catch (error) {
+			alert("Error updating Pokemon!");
+		}
+	};
+
 	return (
 		<div>
 			{!isLoaded && <Loader />}
@@ -59,6 +76,7 @@ const App = () => {
 					pokemons={pokemons}
 					deletePokemon={deletePokemon}
 					addPokemon={addPokemon}
+					updatePokemon={updatePokemon}
 				/>
 			)}
 		</div>
